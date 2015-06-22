@@ -16,7 +16,7 @@ ExampleApp = React.createClass({
                 React.createElement(
                     'h2',
                     null,
-                    'Hello, React'
+                    'Hello, World'
                 )
             )
         );
