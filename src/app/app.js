@@ -1,14 +1,45 @@
 'use strict';
 
 var React = require('react'),
-    ExampleApp;
+    Todo,
+    TodoBox,
+    TodoList;
 
-ExampleApp = React.createClass({
+Todo = React.createClass({
     render: function() {
         return (
             /*jshint ignore:start */
             <div>
-                <h2>Hello, React</h2>
+                <h1>React Todo</h1>
+                <p>What would you like to do?</p>
+                <TodoBox />
+                <TodoList />
+            </div>
+            /*jshint ignore:end */
+        );
+    }
+});
+
+TodoBox = React.createClass({
+    render: function() {
+        return (
+            /*jshint ignore:start */
+            <input type="text" value=""/>
+            /*jshint ignore:end */
+        );
+    }
+});
+
+TodoList = React.createClass({
+    render: function() {
+        return (
+            /*jshint ignore:start */
+            <div>
+                <h2>Items todo</h2>
+                <ul>
+                    <li>Get Milk</li>
+                    <li>Wash car</li>
+                </ul>
             </div>
             /*jshint ignore:end */
         );
@@ -17,7 +48,7 @@ ExampleApp = React.createClass({
 
 React.render(
     /*jshint ignore:start */
-    <ExampleApp />,
+    <Todo />,
     /*jshint ignore:end */
     document.getElementById('app')
 );
