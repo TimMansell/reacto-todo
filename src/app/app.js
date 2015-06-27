@@ -3,7 +3,9 @@
 var React = require('react'),
     Todo,
     TodoBox,
-    TodoList;
+    TodoList,
+    TodoListItem,
+    TodoClearItems;
 
 // Todo container.
 Todo = React.createClass({
@@ -13,10 +15,7 @@ Todo = React.createClass({
     loadTodos: function() {
         var todos = JSON.parse(localStorage.getItem('todoItem'));
 
-        // Are there any todos in localStorage?
-        //if(todos !== null){
-            this.setState({data: todos});
-        //}
+        this.setState({data: todos});
     },
     componentDidMount: function() {
         this.loadTodos();
@@ -39,6 +38,7 @@ Todo = React.createClass({
             <div className="todo">
                 <h1 className="todo-title text-center">React Todo</h1>
                 <TodoBox onTodoSubmit={this.handleTodoSubmit} />
+                <TodoClearItems/>
                 <TodoList todos={this.state.data} />
             </div>
             /*jshint ignore:end */
@@ -58,7 +58,7 @@ TodoBox = React.createClass({
         }
         
         // Save new todo.
-        this.props.onTodoSubmit({text: todo, done: false});
+        this.props.onTodoSubmit({text: todo, completed: false});
 
         // Reset input.
         React.findDOMNode(this.refs.todo).value = '';
@@ -81,6 +81,27 @@ TodoBox = React.createClass({
     }
 });
 
+TodoClearItems = React.createClass({
+    handleClick: function(e) {    
+        localStorage.clear();
+
+        console.log('c');
+        
+        return;
+    },
+    
+    render: function() {
+        return (
+            /*jshint ignore:start */
+            <div className="row text-center">
+                <br/>
+                <button className="btn btn-primary" onClick={this.handleClick}>Clear All</button>
+            </div>
+            /*jshint ignore:end */
+        );
+    }
+});
+
 // Todo List items.
 TodoList = React.createClass({
     render: function() {
@@ -89,7 +110,7 @@ TodoList = React.createClass({
         if(todoNodes!== null){
             todoNodes = this.props.todos.map(function (todo, index) {
               return (
-                <li key={index}>{todo.text}</li>
+                <TodoListItem todo={todo} index={index}/>
               );
             });
         } else {
@@ -109,6 +130,26 @@ TodoList = React.createClass({
     }
 });
 
+TodoListItem = React.createClass({
+    handleChange: function(event) {      
+        return;
+    },
+    render: function() {
+        var index = this.props.index;
+        var todo = this.props.todo;
+
+        return (
+            /*jshint ignore:start */
+           <li key={index}>
+                <input type="checkbox" 
+                    checked={todo.completed}
+                    ref="complete"
+                    onChange={this.handleChange}/>{todo.text}
+            </li>
+            /*jshint ignore:end */
+        );
+    }
+});
 // Render app.
 React.render(
     /*jshint ignore:start */
