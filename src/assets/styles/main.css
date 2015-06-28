@@ -1,1 +1,1 @@
-.todo-item{position:relative}.todo-item_done{text-decoration:line-through}.todo-item-checkbox{margin-right:10px}.todo-item-options{position:absolute;right:0;top:0}.todo-item-option{margin-left:5px}
+.todo-item{position:relative;line-height:34px;margin-top:10px;margin-bottom:10px}.todo-item_done{text-decoration:line-through}.todo-item-options{position:absolute;right:10px;top:50%;transform:translateY(-50%)}.todo-item-checkbox{height:28px}.todo-item-option{margin-left:5px}

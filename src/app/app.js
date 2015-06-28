@@ -165,13 +165,22 @@
     });
 
     TodoListItem = React.createClass({
-        handleChange: function(event) { 
+        getInitialState: function() {
+            return {data: {edit: false}};
+        },
+        handleChange: function(e) { 
+
+            // Swap checked state.
+            this.props.todo.completed = !this.props.todo.completed;
+
+            this.saveTodo();
+
+            return;
+        },
+        saveTodo: function(){
             var todo = this.props.todo,
                 items = (localStorage.getItem('todoItem')!==null) ? JSON.parse(localStorage.getItem('todoItem')) : [],
                 index;
-
-            // Swap checked state.
-            todo.completed = !todo.completed;
 
             // Find current item in items array.
             index = _.indexOf(items, _.find(items, {key: todo.key}));
@@ -182,12 +191,27 @@
             // Save to localStorage.
             localStorage.setItem('todoItem', JSON.stringify(items));
 
+            this.setState({data: {edit: false}});
+
             return;
         },
-        editTodo: function(event) {
-
+        editTodo: function() {
+            this.setState({data: {edit: !this.state.data.edit}});
         },
-        removeTodo: function(event) {
+        handleEditSubmit: function(e) { 
+            var todo = React.findDOMNode(this.refs.editTodo).value.trim();
+
+            e.preventDefault();
+            
+            if (!todo) {
+              return;
+            }
+
+            this.props.todo.text = todo;
+
+            this.saveTodo();
+        },
+        removeTodo: function() {
             var todo = this.props.todo,
                 items = (localStorage.getItem('todoItem')!==null) ? JSON.parse(localStorage.getItem('todoItem')) : [],
                 index;
@@ -205,23 +229,36 @@
         },
         render: function() {
             var todo = this.props.todo,
-                classString = '';
+                classString = '',
+                checkboxClass = 'checkbox',
+                editTaskClass = 'hidden';
             
             // Has the task been completed?
             if (this.props.todo.completed) {
                 classString = 'todo-item_done';
             }
 
+            if (this.state.data.edit) {
+                editTaskClass = '';
+                classString += ' hidden';
+                checkboxClass += ' hidden';
+            }
+
             return (
                 /*jshint ignore:start */
                <li className="todo-item">
-                    <div className="checkbox">
-                      <label>
-                        <input type="checkbox" checked={todo.completed} ref="task"
+                    <div className={checkboxClass}>
+                        <label>
+                            <input className="todo-item-checkbox" type="checkbox" checked={todo.completed} ref="task"
                         onChange={this.handleChange}/>
-                        <span className={classString}>{todo.text}</span>
-                      </label>
+                            <span className={classString}>{todo.text}</span>
+                        </label>
                     </div>
+                    <span className={editTaskClass}>
+                        <form className="todo-form" onSubmit={this.handleEditSubmit}>
+                            <input className="form-control" type="text" placeholder="" ref="editTodo" defaultValue={this.props.todo.text}/>
+                        </form>
+                    </span>
                     <div className="todo-item-options">
                         <a className="todo-item-option" href="#" title="Edit Task" onClick={this.editTodo}><i className="glyphicon glyphicon-pencil"></i></a>
                         <a className="todo-item-option" href="#" title="Remove Task" onClick={this.removeTodo}><i className="glyphicon glyphicon-remove"></i></a>

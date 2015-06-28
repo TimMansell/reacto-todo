@@ -1,18 +1,22 @@
 .todo-item {
 	position: relative;
+	line-height: 34px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 
 	&_done {
 		text-decoration: line-through;
 	}
 
-	&-checkbox {
-		margin-right: 10px;
-	}
-
 	&-options {
 		position: absolute;
-		right: 0;
-		top: 0;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	&-checkbox {
+		height: 28px;
 	}
 
 	&-option {
