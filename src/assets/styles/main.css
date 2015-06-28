@@ -1,1 +1,8 @@
 /* Main.css */
+.todo-item-checkbox {
+	margin-right: 10px;
+}
+
+.todo-item_done {
+	text-decoration: line-through;
+}
