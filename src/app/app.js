@@ -6,7 +6,8 @@
         TodoBox,
         TodoList,
         TodoListItem,
-        TodoClearItems;
+        TodoRemoveAllItems,
+        TodoRemoveCompletedItems;
 
     // Todo container.
     Todo = React.createClass({
@@ -14,7 +15,7 @@
             return {data: []};
         },
         loadTodos: function() {
-            var todos = JSON.parse(localStorage.getItem('todoItem'));
+            var todos = JSON.parse(localStorage.getItem('todoItem')) || [];
 
             this.setState({data: todos});
         },
@@ -41,8 +42,9 @@
                         <div className="col-md-4 col-md-offset-4">
                             <h1 className="todo-title text-center">React Todo</h1>
                             <TodoBox onTodoSubmit={this.handleTodoSubmit} />
-                            <TodoClearItems/>
+                            <TodoRemoveAllItems/>
                             <TodoList todos={this.state.data} />
+                            <TodoRemoveCompletedItems remainingTodos={this.state.data.length}/>
                         </div>
                     </div>
                 </div>
@@ -83,9 +85,10 @@
         }
     });
 
-    TodoClearItems = React.createClass({
+    // Remove all items.
+    TodoRemoveAllItems = React.createClass({
         handleClick: function(e) {    
-            localStorage.clear();
+            localStorage.setItem('todoItem', JSON.stringify([]));
             
             return;
         },
@@ -95,7 +98,37 @@
                 /*jshint ignore:start */
                 <div className="row text-center">
                     <br/>
-                    <button className="btn btn-primary" onClick={this.handleClick}>Remove All</button>
+                    <button className="btn btn-warning" onClick={this.handleClick}>Remove All</button>
+                </div>
+                /*jshint ignore:end */
+            );
+        }
+    });
+
+    // Remove completed items.
+    TodoRemoveCompletedItems = React.createClass({
+        handleClick: function(e) {    
+            var items = (localStorage.getItem('todoItem')!==null) ? JSON.parse(localStorage.getItem('todoItem')) : [],
+                itemsCompleted;
+
+
+            // Find all uncompleted items.
+            itemsCompleted = _.filter(items, {completed: false});
+
+            // Save to localStorage uncompleted items..
+            localStorage.setItem('todoItem', JSON.stringify(itemsCompleted));
+            
+            return;
+        },
+        
+        render: function() {
+            return (
+                /*jshint ignore:start */
+                <div className="row text-center">
+                    <br/>
+                    <span className={this.props.remainingTodos ? '' : 'hidden'}>
+                        <button className="btn btn-primary" onClick={this.handleClick}>Clear Completed</button>
+                    </span>
                 </div>
                 /*jshint ignore:end */
             );
@@ -107,7 +140,7 @@
         render: function() {
             var todoNodes = this.props.todos;
 
-            if(todoNodes!== null){
+            if(todoNodes.length){
                 todoNodes = this.props.todos.map(function (todo, index) {
                   return (
                     <TodoListItem key={index} todo={todo}/>
