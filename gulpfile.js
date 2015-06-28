@@ -66,9 +66,9 @@ gulp.task('styles', ['compass'], function() {
 });
 
 gulp.task('compass', function() {
-    return gulp.src('src/assets/sass/*.scss')
+    return gulp.src('src/assets/scss/*.scss')
         .pipe($.compass({
-            sass: 'src/assets/sass',
+            sass: 'src/assets/scss',
             css: 'src/assets/styles'
         }))
         .pipe($.minifyCss())
@@ -169,7 +169,7 @@ gulp.task('watch', ['connect-dev'], function() {
                 .pipe(devServer.reload());
     });
 
-    gulp.watch(['src/assets/sass/*.scss'], ['compass']);
+    gulp.watch(['src/assets/scss/*.scss'], ['compass']);
     gulp.watch(['src/app/*.js', 'src/app/**/*.js'], ['refresh']);
     gulp.watch('bower.json', ['wiredep']);
 });

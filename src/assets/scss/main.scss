@@ -1,0 +1,21 @@
+.todo-item {
+	position: relative;
+
+	&_done {
+		text-decoration: line-through;
+	}
+
+	&-checkbox {
+		margin-right: 10px;
+	}
+
+	&-options {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	&-option {
+		margin-left: 5px;
+	}
+}

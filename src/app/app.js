@@ -41,6 +41,7 @@
                     <div className="row">
                         <div className="col-md-4 col-md-offset-4">
                             <h1 className="todo-title text-center">React Todo</h1>
+                            <p className="text-center">Type in a task below. Hit enter to save.</p>
                             <TodoBox onTodoSubmit={this.handleTodoSubmit} />
                             <TodoRemoveAllItems/>
                             <TodoList todos={this.state.data} />
@@ -169,7 +170,7 @@
                 items = (localStorage.getItem('todoItem')!==null) ? JSON.parse(localStorage.getItem('todoItem')) : [],
                 index;
 
-            // Swap checked stae.
+            // Swap checked state.
             todo.completed = !todo.completed;
 
             // Find current item in items array.
@@ -177,6 +178,25 @@
 
             // Update item.
             items.splice(index, 1, todo);
+
+            // Save to localStorage.
+            localStorage.setItem('todoItem', JSON.stringify(items));
+
+            return;
+        },
+        editTodo: function(event) {
+
+        },
+        removeTodo: function(event) {
+            var todo = this.props.todo,
+                items = (localStorage.getItem('todoItem')!==null) ? JSON.parse(localStorage.getItem('todoItem')) : [],
+                index;
+
+            // Find current item in items array.
+            index = _.indexOf(items, _.find(items, {key: todo.key}));
+
+            // Update item.
+            items.splice(index, 1);
 
             // Save to localStorage.
             localStorage.setItem('todoItem', JSON.stringify(items));
@@ -194,13 +214,17 @@
 
             return (
                 /*jshint ignore:start */
-               <li>
+               <li className="todo-item">
                     <div className="checkbox">
                       <label>
                         <input type="checkbox" checked={todo.completed} ref="task"
                         onChange={this.handleChange}/>
                         <span className={classString}>{todo.text}</span>
                       </label>
+                    </div>
+                    <div className="todo-item-options">
+                        <a className="todo-item-option" href="#" title="Edit Task" onClick={this.editTodo}><i className="glyphicon glyphicon-pencil"></i></a>
+                        <a className="todo-item-option" href="#" title="Remove Task" onClick={this.removeTodo}><i className="glyphicon glyphicon-remove"></i></a>
                     </div>
                 </li>
                 /*jshint ignore:end */
