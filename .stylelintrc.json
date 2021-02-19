@@ -1,37 +1,17 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-sass-guidelines",
-    "stylelint-config-css-modules"
-  ],
+  "extends": ["stylelint-config-standard"],
   "rules": {
-    "at-rule-no-unknown": null,
-    "declaration-property-unit-allowed-list": {
-      "font-size": ["rem"],
-      "letter-spacing": ["rem"],
-      "line-height": []
-    },
-    "declaration-property-unit-disallowed-list": {
-      "grid-gap": ["px"],
-      "/^margin/": ["px"],
-      "/^padding/": ["px"],
-      "min-height": ["px"],
-      "max-height": ["px"],
-      "min-width": ["px"],
-      "width": ["px"],
-      "height": ["px"],
-      "top": ["px"],
-      "right": ["px"],
-      "bottom": ["px"],
-      "left": ["px"]
-    },
-    "max-nesting-depth": [
-      3,
+    "at-rule-no-unknown": [
+      true,
       {
-        "ignore": ["blockless-at-rules", "pseudo-classes"]
+        "ignoreAtRules": [
+          "tailwind",
+          "variants",
+          "responsive",
+          "apply",
+          "screen"
+        ]
       }
-    ],
-    "order/properties-alphabetical-order": null,
-    "unit-disallowed-list": ["em"]
+    ]
   }
 }

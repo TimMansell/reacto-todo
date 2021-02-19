@@ -7,9 +7,12 @@ class TodoRemoveAllItems extends Component {
 
   render() {
     return (
-      <div className="row text-center">
+      <div className="text-center">
         <br />
-        <button className="btn btn-warning" onClick={() => this.handleClick()}>
+        <button
+          className="p-2 bg-red-600 text-white rounded-md"
+          onClick={() => this.handleClick()}
+        >
           Remove All
         </button>
       </div>
