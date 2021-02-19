@@ -22,12 +22,12 @@ class Todo extends Component {
     }));
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.loadTodos();
 
     // Poll for any new todos.
     setInterval(() => this.loadTodos(), 60);
-  }
+  };
 
   handleTodoSubmit(todo) {
     let items =
