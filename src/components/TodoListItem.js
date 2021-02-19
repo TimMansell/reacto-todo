@@ -107,7 +107,7 @@ class TodoListItem extends Component {
 
     // Has the task been completed?
     if (this.props.todo.completed) {
-      classString = 'todo-item_done';
+      classString = 'todo-item-done';
     }
 
     if (this.state.data.edit) {
