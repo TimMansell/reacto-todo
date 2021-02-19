@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { filter } from 'lodash';
-
 class TodoRemoveCompletedItems extends Component {
   handleClick() {
     let items =
@@ -12,7 +10,7 @@ class TodoRemoveCompletedItems extends Component {
       itemsCompleted;
 
     // Find all uncompleted items.
-    itemsCompleted = filter(items, { completed: false });
+    itemsCompleted = items.filter((item) => !item.completed);
 
     // Save to localStorage uncompleted items..
     localStorage.setItem('todoItem', JSON.stringify(itemsCompleted));

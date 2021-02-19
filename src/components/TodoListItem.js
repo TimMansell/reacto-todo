@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { indexOf, find } from 'lodash';
-
 class TodoListItem extends Component {
   constructor(props) {
     super(props);
@@ -38,19 +36,18 @@ class TodoListItem extends Component {
       items =
         localStorage.getItem('todoItem') !== null
           ? JSON.parse(localStorage.getItem('todoItem'))
-          : [],
-      index;
+          : [];
 
-    // Find current item in items array.
-    index = indexOf(items, find(items, { key: todo.key }));
+    const newItems = items.map((item) => {
+      if (item.key === todo.key) {
+        return todo;
+      }
+
+      return item;
+    });
 
     // Update item.
-    items.splice(index, 1, todo);
-
-    // Save to localStorage.
-    localStorage.setItem('todoItem', JSON.stringify(items));
-
-    // this.setState({data: {edit: false}});
+    localStorage.setItem('todoItem', JSON.stringify(newItems));
 
     this.setState(() => ({
       data: { edit: false },
@@ -86,17 +83,12 @@ class TodoListItem extends Component {
       items =
         localStorage.getItem('todoItem') !== null
           ? JSON.parse(localStorage.getItem('todoItem'))
-          : [],
-      index;
+          : [];
 
-    // Find current item in items array.
-    index = indexOf(items, find(items, { key: todo.key }));
-
-    // Update item.
-    items.splice(index, 1);
+    const newItems = items.filter((item) => item.key !== todo.key);
 
     // Save to localStorage.
-    localStorage.setItem('todoItem', JSON.stringify(items));
+    localStorage.setItem('todoItem', JSON.stringify(newItems));
   }
 
   render() {
