@@ -1,29 +1,43 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class TodoBox extends Component {
-  handleSubmit = (e) => {
-      let todo = this.refs.todo.value,
-          key = Math.floor(Math.random() * 10000) + 1;
+  constructor(props) {
+    super(props);
 
-      e.preventDefault();
+    this.textInput = null;
 
-      
-      if (!todo) {
-        return;
-      }
-      
-      // Save new todo.
-      this.props.onTodoSubmit({key: key, text: todo, completed: false});
-
-      this.refs.todo.value = '';
+    this.setTextInputRef = (element) => {
+      this.textInput = element;
+    };
   }
-  
+
+  handleSubmit = (e) => {
+    let todo = this.textInput.value,
+      key = Math.floor(Math.random() * 10000) + 1;
+
+    e.preventDefault();
+
+    if (!todo) {
+      return;
+    }
+
+    // Save new todo.
+    this.props.onTodoSubmit({ key: key, text: todo, completed: false });
+
+    this.textInput.value = "";
+  };
+
   render() {
-      return (
-        <form className="todo-form" onSubmit={this.handleSubmit}>
-            <input className="form-control" type="text" placeholder="What would you like to do?" ref="todo"/>
-        </form>
-      );
+    return (
+      <form className="todo-form" onSubmit={this.handleSubmit}>
+        <input
+          className="form-control"
+          type="text"
+          placeholder="What would you like to do?"
+          ref={this.setTextInputRef}
+        />
+      </form>
+    );
   }
 }
 
