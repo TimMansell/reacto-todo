@@ -2,6 +2,9 @@
   "name": "cra",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=12.13.0"
+  },
   "dependencies": {
     "@craco/craco": "^6.1.1",
     "@tailwindcss/forms": "^0.2.1",
