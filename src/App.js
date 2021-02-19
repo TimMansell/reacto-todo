@@ -6,9 +6,7 @@ import Todo from './components/Todo';
 
 class App extends Component {
   render() {
-    return (
-      <Todo />
-    );
+    return <Todo />;
   }
 }
 

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class TodoBox extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class TodoBox extends Component {
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit(e) {
     let todo = this.textInput.value,
       key = Math.floor(Math.random() * 10000) + 1;
 
@@ -24,12 +25,12 @@ class TodoBox extends Component {
     // Save new todo.
     this.props.onTodoSubmit({ key: key, text: todo, completed: false });
 
-    this.textInput.value = "";
-  };
+    this.textInput.value = '';
+  }
 
   render() {
     return (
-      <form className="todo-form" onSubmit={this.handleSubmit}>
+      <form className="todo-form" onSubmit={(e) => this.handleSubmit(e)}>
         <input
           className="form-control"
           type="text"
@@ -40,5 +41,9 @@ class TodoBox extends Component {
     );
   }
 }
+
+TodoBox.propTypes = {
+  onTodoSubmit: PropTypes.func.isRequired,
+};
 
 export default TodoBox;

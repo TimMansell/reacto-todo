@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { indexOf, find } from "lodash";
+import { indexOf, find } from 'lodash';
 
 class TodoListItem extends Component {
   constructor(props) {
@@ -25,18 +26,18 @@ class TodoListItem extends Component {
     };
   }
 
-  handleChange = (e) => {
+  handleChange() {
     // Swap checked state.
     this.props.todo.completed = !this.props.todo.completed;
 
     this.saveTodo();
-  };
+  }
 
   saveTodo() {
     let todo = this.props.todo,
       items =
-        localStorage.getItem("todoItem") !== null
-          ? JSON.parse(localStorage.getItem("todoItem"))
+        localStorage.getItem('todoItem') !== null
+          ? JSON.parse(localStorage.getItem('todoItem'))
           : [],
       index;
 
@@ -47,29 +48,27 @@ class TodoListItem extends Component {
     items.splice(index, 1, todo);
 
     // Save to localStorage.
-    localStorage.setItem("todoItem", JSON.stringify(items));
+    localStorage.setItem('todoItem', JSON.stringify(items));
 
     // this.setState({data: {edit: false}});
 
-    this.setState((prevState) => ({
+    this.setState(() => ({
       data: { edit: false },
     }));
 
     return;
   }
 
-  editTodo = () => {
+  editTodo() {
     // this.setState({data: {edit: !this.state.data.edit}});
 
-    this.setState((prevState) => ({
+    this.setState(() => ({
       data: { edit: !this.state.data.edit },
     }));
-  };
+  }
 
-  handleEditSubmit = (e) => {
+  handleEditSubmit(e) {
     let todo = this.editInput.value;
-
-    console.log({ todo });
 
     e.preventDefault();
 
@@ -80,13 +79,13 @@ class TodoListItem extends Component {
     this.props.todo.text = todo;
 
     this.saveTodo();
-  };
+  }
 
-  removeTodo = () => {
+  removeTodo() {
     let todo = this.props.todo,
       items =
-        localStorage.getItem("todoItem") !== null
-          ? JSON.parse(localStorage.getItem("todoItem"))
+        localStorage.getItem('todoItem') !== null
+          ? JSON.parse(localStorage.getItem('todoItem'))
           : [],
       index;
 
@@ -96,27 +95,25 @@ class TodoListItem extends Component {
     // Update item.
     items.splice(index, 1);
 
-    console.log("items", items);
-
     // Save to localStorage.
-    localStorage.setItem("todoItem", JSON.stringify(items));
-  };
+    localStorage.setItem('todoItem', JSON.stringify(items));
+  }
 
   render() {
     let todo = this.props.todo,
-      classString = "",
-      checkboxClass = "checkbox",
-      editTaskClass = "hidden";
+      classString = '',
+      checkboxClass = 'checkbox',
+      editTaskClass = 'hidden';
 
     // Has the task been completed?
     if (this.props.todo.completed) {
-      classString = "todo-item_done";
+      classString = 'todo-item-done';
     }
 
     if (this.state.data.edit) {
-      editTaskClass = "";
-      classString += " hidden";
-      checkboxClass += " hidden";
+      editTaskClass = '';
+      classString += ' hidden';
+      checkboxClass += ' hidden';
     }
 
     return (
@@ -127,19 +124,22 @@ class TodoListItem extends Component {
               className="todo-item-checkbox"
               type="checkbox"
               checked={todo.completed}
-              ref={this.taskInput}
-              onChange={this.handleChange}
+              ref={this.setTaskInputRef}
+              onChange={() => this.handleChange()}
             />
             <span className={classString}>{todo.text}</span>
           </label>
         </div>
 
         <span className={editTaskClass}>
-          <form className="todo-form" onSubmit={this.handleEditSubmit}>
+          <form
+            className="todo-form"
+            onSubmit={(e) => this.handleEditSubmit(e)}
+          >
             <input
               className="form-control"
               type="text"
-              ref={this.editInput}
+              ref={this.setEditInputRef}
               defaultValue={todo.text}
             />
           </form>
@@ -148,14 +148,14 @@ class TodoListItem extends Component {
           <button
             className="todo-item-option"
             title="Edit Task"
-            onClick={this.editTodo}
+            onClick={() => this.editTodo()}
           >
             Edit
           </button>
           <button
             className="todo-item-option"
             title="Remove Task"
-            onClick={this.removeTodo}
+            onClick={() => this.removeTodo()}
           >
             Remove
           </button>
@@ -164,5 +164,9 @@ class TodoListItem extends Component {
     );
   }
 }
+
+TodoListItem.propTypes = {
+  todo: PropTypes.object.isRequired,
+};
 
 export default TodoListItem;
