@@ -102,58 +102,53 @@ class TodoListItem extends Component {
   render() {
     let todo = this.props.todo,
       classString = '',
-      checkboxClass = 'checkbox',
       editTaskClass = 'hidden';
 
     // Has the task been completed?
     if (this.props.todo.completed) {
-      classString = 'todo-item-done';
+      classString = 'line-through';
     }
 
     if (this.state.data.edit) {
       editTaskClass = '';
       classString += ' hidden';
-      checkboxClass += ' hidden';
     }
 
     return (
-      <li className="todo-item">
-        <div className={checkboxClass}>
-          <label>
-            <input
-              className="todo-item-checkbox"
-              type="checkbox"
-              checked={todo.completed}
-              ref={this.setTaskInputRef}
-              onChange={() => this.handleChange()}
-            />
-            <span className={classString}>{todo.text}</span>
-          </label>
-        </div>
+      <li className="flex p-1">
+        <div className="flex-1">
+          <div className={classString}>
+            <label>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                ref={this.setTaskInputRef}
+                onChange={() => this.handleChange()}
+              />
+              <span>{todo.text}</span>
+            </label>
+          </div>
 
-        <span className={editTaskClass}>
-          <form
-            className="todo-form"
-            onSubmit={(e) => this.handleEditSubmit(e)}
-          >
-            <input
-              className="form-control"
-              type="text"
-              ref={this.setEditInputRef}
-              defaultValue={todo.text}
-            />
-          </form>
-        </span>
-        <div className="todo-item-options">
+          <span className={editTaskClass}>
+            <form onSubmit={(e) => this.handleEditSubmit(e)}>
+              <input
+                type="text"
+                ref={this.setEditInputRef}
+                defaultValue={todo.text}
+              />
+            </form>
+          </span>
+        </div>
+        <div>
           <button
-            className="todo-item-option"
+            className="p-2 bg-blue-500 text-white rounded-md"
             title="Edit Task"
             onClick={() => this.editTodo()}
           >
             Edit
           </button>
           <button
-            className="todo-item-option"
+            className="p-2 bg-red-600 text-white rounded-md ml-1"
             title="Remove Task"
             onClick={() => this.removeTodo()}
           >

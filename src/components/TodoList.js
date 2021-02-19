@@ -18,7 +18,7 @@ class TodoList extends Component {
     return (
       <div>
         <h3>Items to do</h3>
-        <ul className="list-unstyled">{todoNodes}</ul>
+        <ul>{todoNodes}</ul>
       </div>
     );
   }

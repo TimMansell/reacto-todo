@@ -22,10 +22,13 @@ class TodoRemoveCompletedItems extends Component {
 
   render() {
     return (
-      <div className="row text-center">
+      <div className="text-center">
         <br />
         <span className={this.props.remainingTodos ? '' : 'hidden'}>
-          <button className="btn btn-primary" onClick={this.handleClick}>
+          <button
+            className="p-2 bg-green-500 text-white rounded-md"
+            onClick={this.handleClick}
+          >
             Clear Completed
           </button>
         </span>

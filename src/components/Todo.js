@@ -44,19 +44,13 @@ class Todo extends Component {
 
   render() {
     return (
-      <div className="todo">
-        <div className="row">
-          <div className="col-md-4 col-md-offset-4">
-            <h1 className="todo-title text-center">React Todo</h1>
-            <p className="text-center">
-              Type in a task below. Hit enter to save.
-            </p>
-            <TodoBox onTodoSubmit={(todo) => this.handleTodoSubmit(todo)} />
-            <TodoRemoveAllItems />
-            <TodoList todos={this.state.data} />
-            <TodoRemoveCompletedItems remainingTodos={this.state.data.length} />
-          </div>
-        </div>
+      <div className="container mx-auto">
+        <h1 className="text-center">React Todo</h1>
+        <p className="text-center">Type in a task below. Hit enter to save.</p>
+        <TodoBox onTodoSubmit={(todo) => this.handleTodoSubmit(todo)} />
+        <TodoRemoveAllItems />
+        <TodoList todos={this.state.data} />
+        <TodoRemoveCompletedItems remainingTodos={this.state.data.length} />
       </div>
     );
   }

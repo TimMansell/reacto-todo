@@ -30,14 +30,16 @@ class TodoBox extends Component {
 
   render() {
     return (
-      <form className="todo-form" onSubmit={(e) => this.handleSubmit(e)}>
-        <input
-          className="form-control"
-          type="text"
-          placeholder="What would you like to do?"
-          ref={this.setTextInputRef}
-        />
-      </form>
+      <div className="text-center">
+        <form onSubmit={(e) => this.handleSubmit(e)}>
+          <input
+            type="text"
+            className="rounded"
+            placeholder="What would you like to do?"
+            ref={this.setTextInputRef}
+          />
+        </form>
+      </div>
     );
   }
 }
