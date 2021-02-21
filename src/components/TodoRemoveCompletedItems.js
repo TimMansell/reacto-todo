@@ -1,22 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clearCompletedTodos } from '../store/todoStore';
 import PropTypes from 'prop-types';
 
 export const TodoRemoveCompletedItems = ({ remainingTodos }) => {
-  const handleClick = () => {
-    let items =
-        localStorage.getItem('todoItem') !== null
-          ? JSON.parse(localStorage.getItem('todoItem'))
-          : [],
-      itemsCompleted;
-
-    // Find all uncompleted items.
-    itemsCompleted = items.filter((item) => !item.completed);
-
-    // Save to localStorage uncompleted items..
-    localStorage.setItem('todoItem', JSON.stringify(itemsCompleted));
-
-    return;
-  };
+  const dispatch = useDispatch();
 
   return (
     <div className="text-center">
@@ -24,7 +12,7 @@ export const TodoRemoveCompletedItems = ({ remainingTodos }) => {
       <span className={remainingTodos ? '' : 'hidden'}>
         <button
           className="p-2 bg-green-500 text-white rounded-md"
-          onClick={handleClick()}
+          onClick={() => dispatch(clearCompletedTodos())}
         >
           Clear Completed
         </button>

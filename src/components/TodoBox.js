@@ -1,21 +1,23 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../store/todoStore';
 
-export const TodoBox = ({ onTodoSubmit }) => {
+export const TodoBox = () => {
   const refInput = useRef(null);
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    let todo = refInput.current.value,
-      key = Math.floor(Math.random() * 10000) + 1;
+    const text = refInput.current.value;
+    const key = Math.floor(Math.random() * 10000) + 1;
 
     e.preventDefault();
 
-    if (!todo) {
+    if (!text) {
       return;
     }
 
     // Save new todo.
-    onTodoSubmit({ key: key, text: todo, completed: false });
+    dispatch(addTodo({ key, text, completed: false }));
 
     refInput.current.value = '';
   };
@@ -32,10 +34,6 @@ export const TodoBox = ({ onTodoSubmit }) => {
       </form>
     </div>
   );
-};
-
-TodoBox.propTypes = {
-  onTodoSubmit: PropTypes.func.isRequired,
 };
 
 export default TodoBox;

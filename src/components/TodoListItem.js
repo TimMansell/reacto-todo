@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { editTodo, deleteTodo, completedTodo } from '../store/todoStore';
 import PropTypes from 'prop-types';
 
 export const TodoListItem = ({ todo }) => {
   const [edit, setEdit] = useState(false);
-  const refInput = useRef(null);
   const refEdit = useRef(null);
+  const dispatch = useDispatch();
 
   let classString = '',
     editTaskClass = 'hidden';
@@ -19,64 +21,21 @@ export const TodoListItem = ({ todo }) => {
     classString += ' hidden';
   }
 
-  const handleChange = () => {
-    const updatedTodo = {
-      ...todo,
-      completed: !todo.completed,
-    };
-
-    saveTodo(updatedTodo);
-  };
-
-  const saveTodo = (updatedTodo) => {
-    let items =
-      localStorage.getItem('todoItem') !== null
-        ? JSON.parse(localStorage.getItem('todoItem'))
-        : [];
-
-    console.log({ updatedTodo });
-
-    const newItems = items.map((item) => {
-      if (item.key === updatedTodo.key) {
-        return updatedTodo;
-      }
-
-      return item;
-    });
-
-    // Update item.
-    localStorage.setItem('todoItem', JSON.stringify(newItems));
-
-    setEdit(false);
-  };
-
-  const editTodo = () => setEdit(!edit);
-
-  const handleEditSubmit = (e) => {
-    const editTodo = {
+  const handleEdit = (e) => {
+    const item = {
       ...todo,
       text: refEdit.current.value,
     };
 
     e.preventDefault();
 
-    if (!editTodo) {
+    if (!item) {
       return;
     }
 
-    saveTodo(editTodo);
-  };
+    dispatch(editTodo(item));
 
-  const removeTodo = () => {
-    let items =
-      localStorage.getItem('todoItem') !== null
-        ? JSON.parse(localStorage.getItem('todoItem'))
-        : [];
-
-    const newItems = items.filter((item) => item.key !== todo.key);
-
-    // Save to localStorage.
-    localStorage.setItem('todoItem', JSON.stringify(newItems));
+    setEdit(false);
   };
 
   return (
@@ -87,15 +46,14 @@ export const TodoListItem = ({ todo }) => {
             <input
               type="checkbox"
               checked={todo.completed}
-              ref={refInput}
-              onChange={() => handleChange()}
+              onChange={() => dispatch(completedTodo(todo.key))}
             />
             <span>{todo.text}</span>
           </label>
         </div>
 
         <span className={editTaskClass}>
-          <form onSubmit={(e) => handleEditSubmit(e)}>
+          <form onSubmit={(e) => handleEdit(e)}>
             <input type="text" ref={refEdit} defaultValue={todo.text} />
           </form>
         </span>
@@ -104,14 +62,14 @@ export const TodoListItem = ({ todo }) => {
         <button
           className="p-2 bg-blue-500 text-white rounded-md"
           title="Edit Task"
-          onClick={() => editTodo()}
+          onClick={() => setEdit(!edit)}
         >
           Edit
         </button>
         <button
           className="p-2 bg-red-600 text-white rounded-md ml-1"
           title="Remove Task"
-          onClick={() => removeTodo()}
+          onClick={() => dispatch(deleteTodo(todo.key))}
         >
           Remove
         </button>
