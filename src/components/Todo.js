@@ -1,32 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addTodo } from '../store/todoStore';
 
 import TodoBox from './TodoBox';
 import TodoRemoveAllItems from './TodoRemoveAllItems';
 import TodoList from './TodoList';
 import TodoRemoveCompletedItems from './TodoRemoveCompletedItems';
 
-const loadTodos = () => JSON.parse(localStorage.getItem('todoItem')) || [];
-
 export const Todo = () => {
-  const [todos, setTodos] = useState(() => {
-    const initialState = loadTodos();
-    return initialState;
-  });
+  const todos = useSelector((state) => state.todos.todos);
+  const dispatch = useDispatch();
 
-  const handleTodoSubmit = (todo) => {
-    let items =
-      localStorage.getItem('todoItem') !== null
-        ? JSON.parse(localStorage.getItem('todoItem'))
-        : [];
-
-    // Add new item to array.
-    items.push(todo);
-
-    // Save to localStorage.
-    localStorage.setItem('todoItem', JSON.stringify(items));
-
-    setTodos(items);
-  };
+  const handleTodoSubmit = (todo) => dispatch(addTodo(todo));
 
   return (
     <div className="container mx-auto">

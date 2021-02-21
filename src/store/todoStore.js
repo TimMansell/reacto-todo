@@ -1,13 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const todos = JSON.parse(localStorage.getItem('todos')) || [];
+
 export const todosSlice = createSlice({
   name: 'todos',
   initialState: {
-    todos: [],
+    todos,
   },
   reducers: {
-    addTodo: (state) => {
-      state.todos = [];
+    addTodo: (state, action) => {
+      const todo = action.payload;
+      const todoItems = [...state.todos, todo];
+
+      state.todos = todoItems;
+
+      localStorage.setItem('todos', JSON.stringify(todoItems));
     },
     editTodo: (state) => {
       state.todos = [];
@@ -19,6 +26,6 @@ export const todosSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = todosSlice.actions;
+export const { addTodo, editTodo, deleteTodo } = todosSlice.actions;
 
 export default todosSlice.reducer;
