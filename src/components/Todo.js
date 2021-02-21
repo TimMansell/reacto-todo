@@ -1,35 +1,19 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import TodoBox from './TodoBox';
 import TodoRemoveAllItems from './TodoRemoveAllItems';
 import TodoList from './TodoList';
 import TodoRemoveCompletedItems from './TodoRemoveCompletedItems';
 
-class Todo extends Component {
-  constructor(props) {
-    super(props);
+const loadTodos = () => JSON.parse(localStorage.getItem('todoItem')) || [];
 
-    this.state = {
-      data: [],
-    };
-  }
+export const Todo = () => {
+  const [todos, setTodos] = useState(() => {
+    const initialState = loadTodos();
+    return initialState;
+  });
 
-  loadTodos() {
-    let todos = JSON.parse(localStorage.getItem('todoItem')) || [];
-
-    this.setState(() => ({
-      data: todos,
-    }));
-  }
-
-  componentDidMount() {
-    this.loadTodos();
-
-    // Poll for any new todos.
-    setInterval(() => this.loadTodos(), 60);
-  }
-
-  handleTodoSubmit(todo) {
+  const handleTodoSubmit = (todo) => {
     let items =
       localStorage.getItem('todoItem') !== null
         ? JSON.parse(localStorage.getItem('todoItem'))
@@ -40,20 +24,20 @@ class Todo extends Component {
 
     // Save to localStorage.
     localStorage.setItem('todoItem', JSON.stringify(items));
-  }
 
-  render() {
-    return (
-      <div className="container mx-auto">
-        <h1 className="text-center">React Todo</h1>
-        <p className="text-center">Type in a task below. Hit enter to save.</p>
-        <TodoBox onTodoSubmit={(todo) => this.handleTodoSubmit(todo)} />
-        <TodoRemoveAllItems />
-        <TodoList todos={this.state.data} />
-        <TodoRemoveCompletedItems remainingTodos={this.state.data.length} />
-      </div>
-    );
-  }
-}
+    setTodos(items);
+  };
+
+  return (
+    <div className="container mx-auto">
+      <h1 className="text-center">React Todo</h1>
+      <p className="text-center">Type in a task below. Hit enter to save.</p>
+      <TodoBox onTodoSubmit={(todo) => handleTodoSubmit(todo)} />
+      <TodoRemoveAllItems />
+      <TodoList todos={todos} />
+      <TodoRemoveCompletedItems remainingTodos={todos.length} />
+    </div>
+  );
+};
 
 export default Todo;
