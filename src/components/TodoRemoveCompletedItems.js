@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class TodoRemoveCompletedItems extends Component {
-  handleClick() {
+export const TodoRemoveCompletedItems = ({ remainingTodos }) => {
+  const handleClick = () => {
     let items =
         localStorage.getItem('todoItem') !== null
           ? JSON.parse(localStorage.getItem('todoItem'))
@@ -16,24 +16,22 @@ class TodoRemoveCompletedItems extends Component {
     localStorage.setItem('todoItem', JSON.stringify(itemsCompleted));
 
     return;
-  }
+  };
 
-  render() {
-    return (
-      <div className="text-center">
-        <br />
-        <span className={this.props.remainingTodos ? '' : 'hidden'}>
-          <button
-            className="p-2 bg-green-500 text-white rounded-md"
-            onClick={this.handleClick}
-          >
-            Clear Completed
-          </button>
-        </span>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="text-center">
+      <br />
+      <span className={remainingTodos ? '' : 'hidden'}>
+        <button
+          className="p-2 bg-green-500 text-white rounded-md"
+          onClick={handleClick()}
+        >
+          Clear Completed
+        </button>
+      </span>
+    </div>
+  );
+};
 
 TodoRemoveCompletedItems.propTypes = {
   remainingTodos: PropTypes.number.isRequired,
