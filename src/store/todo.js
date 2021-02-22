@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-export const todosSlice = createSlice({
+export const slice = createSlice({
   name: 'todos',
   initialState: {
     todos,
@@ -85,6 +85,6 @@ export const {
   deleteTodos,
   completedTodo,
   clearCompletedTodos,
-} = todosSlice.actions;
+} = slice.actions;
 
-export default todosSlice.reducer;
+export default slice.reducer;
