@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { clearCompletedTodos } from '../store/todoStore';
+import { clearCompletedTodos } from '../store/todo';
 import PropTypes from 'prop-types';
 
 export const TodoRemoveCompletedItems = ({ remainingTodos }) => {

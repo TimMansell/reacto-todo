@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../store/todoStore';
+import { addTodo } from '../store/todo';
 
 export const TodoBox = () => {
   const refInput = useRef(null);

@@ -78,7 +78,6 @@ export const todosSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const {
   addTodo,
   editTodo,

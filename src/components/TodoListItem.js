@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { editTodo, deleteTodo, completedTodo } from '../store/todoStore';
+import { editTodo, deleteTodo, completedTodo } from '../store/todo';
 import PropTypes from 'prop-types';
 
 export const TodoListItem = ({ todo }) => {

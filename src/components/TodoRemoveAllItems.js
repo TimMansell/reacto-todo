@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTodos } from '../store/todoStore';
+import { deleteTodos } from '../store/todo';
 
 export const TodoRemoveAllItems = () => {
   const dispatch = useDispatch();
