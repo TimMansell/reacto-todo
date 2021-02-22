@@ -1,16 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteTodos } from '../store/todo';
 
 export const TodoRemoveAllItems = () => {
-  const handleClick = () => {
-    localStorage.setItem('todoItem', JSON.stringify([]));
-  };
+  const dispatch = useDispatch();
 
   return (
     <div className="text-center">
       <br />
       <button
         className="p-2 bg-red-600 text-white rounded-md"
-        onClick={() => handleClick()}
+        onClick={() => dispatch(deleteTodos())}
       >
         Remove All
       </button>

@@ -1,38 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import TodoBox from './TodoBox';
 import TodoRemoveAllItems from './TodoRemoveAllItems';
 import TodoList from './TodoList';
 import TodoRemoveCompletedItems from './TodoRemoveCompletedItems';
 
-const loadTodos = () => JSON.parse(localStorage.getItem('todoItem')) || [];
-
 export const Todo = () => {
-  const [todos, setTodos] = useState(() => {
-    const initialState = loadTodos();
-    return initialState;
-  });
-
-  const handleTodoSubmit = (todo) => {
-    let items =
-      localStorage.getItem('todoItem') !== null
-        ? JSON.parse(localStorage.getItem('todoItem'))
-        : [];
-
-    // Add new item to array.
-    items.push(todo);
-
-    // Save to localStorage.
-    localStorage.setItem('todoItem', JSON.stringify(items));
-
-    setTodos(items);
-  };
+  const todos = useSelector((state) => state.todos.todos);
 
   return (
     <div className="container mx-auto">
       <h1 className="text-center">React Todo</h1>
       <p className="text-center">Type in a task below. Hit enter to save.</p>
-      <TodoBox onTodoSubmit={(todo) => handleTodoSubmit(todo)} />
+      <TodoBox />
       <TodoRemoveAllItems />
       <TodoList todos={todos} />
       <TodoRemoveCompletedItems remainingTodos={todos.length} />
