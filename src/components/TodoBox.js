@@ -1,13 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../store/todo';
 
 export const TodoBox = () => {
-  const refInput = useRef(null);
+  const [text, setText] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    const text = refInput.current.value;
     const key = Math.floor(Math.random() * 10000) + 1;
 
     e.preventDefault();
@@ -19,7 +18,7 @@ export const TodoBox = () => {
     // Save new todo.
     dispatch(addTodo({ key, text, completed: false }));
 
-    refInput.current.value = '';
+    setText('');
   };
 
   return (
@@ -29,7 +28,8 @@ export const TodoBox = () => {
           type="text"
           className="rounded"
           placeholder="What would you like to do?"
-          ref={refInput}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
       </form>
     </div>

@@ -1,12 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 import { editTodo, deleteTodo, completedTodo } from '../store/todo';
 import PropTypes from 'prop-types';
 
 export const TodoListItem = ({ todo }) => {
+  const [text, setText] = useState(todo.text);
   const [edit, setEdit] = useState(false);
-  const refEdit = useRef(null);
   const dispatch = useDispatch();
 
   const itemClasses = classnames({
@@ -21,12 +21,12 @@ export const TodoListItem = ({ todo }) => {
   const handleEdit = (e) => {
     const item = {
       ...todo,
-      text: refEdit.current.value,
+      text,
     };
 
     e.preventDefault();
 
-    if (!item) {
+    if (!text) {
       return;
     }
 
@@ -51,7 +51,11 @@ export const TodoListItem = ({ todo }) => {
 
         <span className={editTaskClasses}>
           <form onSubmit={(e) => handleEdit(e)}>
-            <input type="text" ref={refEdit} defaultValue={todo.text} />
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
           </form>
         </span>
       </div>
