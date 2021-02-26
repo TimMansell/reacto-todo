@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import classnames from 'classnames';
 import { editTodo, deleteTodo, completedTodo } from '../store/todo';
 import PropTypes from 'prop-types';
 
@@ -8,18 +9,14 @@ export const TodoListItem = ({ todo }) => {
   const refEdit = useRef(null);
   const dispatch = useDispatch();
 
-  let classString = '',
-    editTaskClass = 'hidden';
+  const itemClasses = classnames({
+    hidden: edit,
+    'line-through': todo.completed,
+  });
 
-  // Has the task been completed?
-  if (todo.completed) {
-    classString = 'line-through';
-  }
-
-  if (edit) {
-    editTaskClass = '';
-    classString += ' hidden';
-  }
+  const editTaskClasses = classnames({
+    hidden: !edit,
+  });
 
   const handleEdit = (e) => {
     const item = {
@@ -41,7 +38,7 @@ export const TodoListItem = ({ todo }) => {
   return (
     <li className="flex p-1">
       <div className="flex-1">
-        <div className={classString}>
+        <div className={itemClasses}>
           <label>
             <input
               type="checkbox"
@@ -52,7 +49,7 @@ export const TodoListItem = ({ todo }) => {
           </label>
         </div>
 
-        <span className={editTaskClass}>
+        <span className={editTaskClasses}>
           <form onSubmit={(e) => handleEdit(e)}>
             <input type="text" ref={refEdit} defaultValue={todo.text} />
           </form>
