@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../store/todo';
+import { v4 as uuidv4 } from 'uuid';
 
 export const TodoBox = () => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    const key = Math.floor(Math.random() * 10000) + 1;
+    const key = uuidv4();
 
     e.preventDefault();
 
