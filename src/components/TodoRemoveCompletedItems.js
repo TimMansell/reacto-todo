@@ -8,7 +8,7 @@ export const TodoRemoveCompletedItems = ({ remainingTodos }) => {
   const dispatch = useDispatch();
 
   const classes = classnames({
-    hidden: remainingTodos,
+    hidden: !remainingTodos,
   });
 
   return (
